@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @SuppressWarnings("UnstableApiUsage")
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityFireproofMixin extends Entity implements FireproofEntity {
+
     public ItemEntityFireproofMixin(EntityType<?> type, World world) {
         super(type, world);
     }
