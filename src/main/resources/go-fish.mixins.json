@@ -13,10 +13,7 @@
     "FishingBobberValidityMixin",
     "FishingHookPredicateMixin",
     "FishingRodPropertyMixin",
-    "ItemEntityFireproofMixin",
-    "LocationPredicateBuilderAccessor",
-    "LootTableBuilderAccessor",
-    "ParticleManagerMixin"
+    "ItemEntityFireproofMixin"
   ],
   "client": [],
   "injectors": {

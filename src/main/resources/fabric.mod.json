@@ -37,9 +37,8 @@
     "go-fish.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.4",
-    "fabric-api": "*",
-    "minecraft": "~1.20.1",
-    "java": ">=17"
+    "fabricloader": "*",
+    "minecraft": ">=1.20",
+    "fabric-api": ">=0.92.0"
   }
 }
