@@ -1,16 +1,32 @@
 {
   "replace": false,
   "values": [
-    "minecraft:snowy_plains",
-    "minecraft:ice_spikes",
-    "minecraft:snowy_taiga",
-    "minecraft:snowy_beach",
-    "minecraft:grove",
-    "minecraft:snowy_slopes",
-    "minecraft:jagged_peaks",
-    "minecraft:frozen_peaks",
-    "minecraft:frozen_ocean",
+    {
+      "id": "#c:aquatic_icy",
+      "required": false
+    },
+    {
+      "id": "#c:climate_cold",
+      "required": false
+    },
+    {
+      "id": "#c:icy",
+      "required": false
+    },
+    {
+      "id": "#c:snowy",
+      "required": false
+    },
     "minecraft:deep_frozen_ocean",
-    "minecraft:frozen_river"
+    "minecraft:frozen_ocean",
+    "minecraft:frozen_peaks",
+    "minecraft:frozen_river",
+    "minecraft:grove",
+    "minecraft:ice_spikes",
+    "minecraft:jagged_peaks",
+    "minecraft:snowy_beach",
+    "minecraft:snowy_plains",
+    "minecraft:snowy_slopes",
+    "minecraft:snowy_taiga"
   ]
 }
