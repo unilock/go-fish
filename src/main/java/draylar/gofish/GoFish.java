@@ -30,6 +30,7 @@ public class GoFish implements ModInitializer {
                 .displayName(Text.translatable("itemGroup.gofish.group"))
                 .build());
 
+        GoFishAttachments.init();
         GoFishBlocks.init();
         GoFishItems.init();
         GoFishEnchantments.init();

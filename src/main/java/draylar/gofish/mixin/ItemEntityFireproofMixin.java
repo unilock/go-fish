@@ -1,43 +1,28 @@
 package draylar.gofish.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import draylar.gofish.api.FireproofEntity;
+import draylar.gofish.registry.GoFishAttachments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityFireproofMixin extends Entity implements FireproofEntity {
-
-    @Unique
-    private static final TrackedData<Boolean> GF_FIRE_IMMUNE = DataTracker.registerData(ItemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
     public ItemEntityFireproofMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 
-    @Inject(
-            method = "initDataTracker",
-            at = @At("RETURN"))
-    private void registerFireImmuneTracker(CallbackInfo ci) {
-        dataTracker.startTracking(GF_FIRE_IMMUNE, false);
-    }
-
-    @Inject(
+    @ModifyReturnValue(
             method = "isFireImmune",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void isLavaFishingLoot(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(cir.getReturnValue() || dataTracker.get(GF_FIRE_IMMUNE));
+            at = @At("RETURN")
+    )
+    private boolean isLavaFishingLoot(boolean original) {
+        return original || gf_isFireproof();
     }
 
     // todo: inject into super instead
@@ -52,11 +37,11 @@ public abstract class ItemEntityFireproofMixin extends Entity implements Firepro
 
     @Override
     public boolean gf_isFireproof() {
-        return dataTracker.get(GF_FIRE_IMMUNE);
+        return Boolean.TRUE.equals(this.getAttached(GoFishAttachments.FIRE_IMMUNE));
     }
 
     @Override
     public void gf_setFireproof(boolean value) {
-        dataTracker.set(GF_FIRE_IMMUNE, value);
+        this.setAttached(GoFishAttachments.FIRE_IMMUNE, value);
     }
 }
