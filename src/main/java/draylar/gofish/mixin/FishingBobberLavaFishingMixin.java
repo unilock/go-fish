@@ -58,15 +58,11 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
 
         // Player is holding extended fishing rod, check if it can be in lava.
         // Otherwise, fallback to default behavior.
-        if (mainHandItem instanceof ExtendedFishingRodItem) {
-            ExtendedFishingRodItem usedRod = (ExtendedFishingRodItem) mainHandItem;
-
+        if (mainHandItem instanceof ExtendedFishingRodItem usedRod) {
             if (usedRod.canFishInLava()) {
                 return fluidState.getHeight(this.getWorld(), blockPos);
             }
-        } else if (offHandItem instanceof ExtendedFishingRodItem) {
-            ExtendedFishingRodItem usedRod = (ExtendedFishingRodItem) offHandItem;
-
+        } else if (offHandItem instanceof ExtendedFishingRodItem usedRod) {
             if (usedRod.canFishInLava()) {
                 return fluidState.getHeight(this.getWorld(), blockPos);
             }
