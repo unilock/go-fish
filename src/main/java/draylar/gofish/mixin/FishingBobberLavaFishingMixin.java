@@ -1,5 +1,6 @@
 package draylar.gofish.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import draylar.gofish.item.ExtendedFishingRodItem;
 import draylar.gofish.registry.GoFishParticles;
 import net.minecraft.block.BlockState;
@@ -27,7 +28,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberLavaFishingMixin extends Entity {
@@ -96,10 +96,9 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
 
     @Inject(
             method = "tickFishingLogic",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 0),
-            locals = LocalCapture.CAPTURE_FAILHARD
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 0)
     )
-    private void fishingLavaParticles(BlockPos pos, CallbackInfo ci, ServerWorld serverWorld, int i, BlockPos blockPos, float f, float g, float h, double d, double e, double j, BlockState blockState) {
+    private void fishingLavaParticles(BlockPos pos, CallbackInfo ci, @Local ServerWorld serverWorld, @Local(ordinal = 0) float f, @Local(ordinal = 1) float g, @Local(ordinal = 2) float h, @Local(ordinal = 0) double d, @Local(ordinal = 1) double e, @Local(ordinal = 2) double j, @Local BlockState blockState) {
         if (!blockState.isOf(Blocks.LAVA)) {
             return;
         }
@@ -115,10 +114,9 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
 
     @Inject(
             method = "tickFishingLogic",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 1),
-            locals = LocalCapture.CAPTURE_FAILHARD
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 1)
     )
-    private void fishSecondaryLavaParticles(BlockPos pos, CallbackInfo ci, ServerWorld serverWorld, int i, BlockPos blockPos, float f, float g, float h, double d, double e, double j, BlockState blockState) {
+    private void fishSecondaryLavaParticles(BlockPos pos, CallbackInfo ci, @Local ServerWorld serverWorld, @Local BlockState blockState) {
         if (blockState.isOf(Blocks.LAVA)) {
             serverWorld.spawnParticles(ParticleTypes.LAVA, pos.getX(), pos.getY(), pos.getZ(), 2 + this.random.nextInt(2), 0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
         }

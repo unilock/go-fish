@@ -1,17 +1,16 @@
 package draylar.gofish.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import draylar.gofish.api.FireproofEntity;
 import draylar.gofish.impl.GoFishLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
@@ -20,10 +19,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Iterator;
-import java.util.List;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberLootMixin extends Entity {
@@ -51,9 +46,9 @@ public abstract class FishingBobberLootMixin extends Entity {
 
     @Inject(
             method = "use",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setVelocity(DDD)V"),
-            locals = LocalCapture.CAPTURE_FAILHARD)
-    private void setFireproof(ItemStack usedItem, CallbackInfoReturnable<Integer> cir, PlayerEntity playerEntity, int i, LootContextParameterSet lootContextParameterSet, LootTable lootTable, List list, Iterator var7, ItemStack itemStack, ItemEntity itemEntity, double d, double e, double f, double g) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setVelocity(DDD)V")
+    )
+    private void setFireproof(ItemStack usedItem, CallbackInfoReturnable<Integer> cir, @Local ItemEntity itemEntity) {
         // If the user is fishing in the nether, tell the dropped loot to ignore lava/fire burning until pickup
         if(getWorld().getDimension().ultrawarm()) {
             ((FireproofEntity) itemEntity).gf_setFireproof(true);
