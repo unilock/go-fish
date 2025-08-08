@@ -11,8 +11,6 @@ base {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/go-fish.accesswidener")
-
     mods {
         "go-fish" {
             sourceSet sourceSets.main

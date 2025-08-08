@@ -3,16 +3,15 @@
   "package": "draylar.gofish.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityFireproofMixin",
     "FishingBobberAutosmeltMixin",
     "FishingBobberEntityAccessor",
     "FishingBobberExperienceMixin",
-    "FishingBobberFireproofMixin",
     "FishingBobberLavaFishingMixin",
     "FishingBobberLootMixin",
     "FishingBobberValidityMixin",
     "FishingHookPredicateMixin",
-    "FishingRodPropertyMixin",
-    "ItemEntityFireproofMixin"
+    "FishingRodPropertyMixin"
   ],
   "client": [
     "client.FishingBobberEntityRendererMixin"

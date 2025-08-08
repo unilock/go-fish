@@ -33,7 +33,6 @@
       "draylar.gofish.GoFishClient"
     ]
   },
-  "accessWidener": "go-fish.accesswidener",
   "mixins": [
     "go-fish.mixins.json"
   ],
