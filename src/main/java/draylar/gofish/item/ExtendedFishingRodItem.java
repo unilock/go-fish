@@ -2,7 +2,6 @@ package draylar.gofish.item;
 
 import draylar.gofish.api.*;
 import draylar.gofish.registry.GoFishEnchantments;
-
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -153,11 +152,6 @@ public class ExtendedFishingRodItem extends FishingRodItem {
         return autosmelt;
     }
 
-    @Override
-    public int getEnchantability() {
-        return 1;
-    }
-
     public boolean canFishInLava() {
         return lavaProof;
     }
@@ -176,8 +170,8 @@ public class ExtendedFishingRodItem extends FishingRodItem {
         private Formatting formatting = Formatting.WHITE;
         private int tooltipLines = 0;
 
-        public Builder() {
-
+        public Builder(Item.Settings settings) {
+            this.settings = settings;
         }
 
         public Builder withSettings(Item.Settings settings) {

@@ -1,5 +1,7 @@
 package draylar.gofish.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import draylar.gofish.api.ExperienceBobber;
 import draylar.gofish.api.FireproofEntity;
 import draylar.gofish.api.FishingBonus;
@@ -20,7 +22,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
@@ -38,13 +39,13 @@ public class FishingRodPropertyMixin {
         this.player = user;
     }
 
-    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-    private boolean modifyBobber(World world, Entity entity) {
+    @WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+    private boolean modifyBobber(World world, Entity entity, Operation<Boolean> operation) {
         if(entity instanceof FishingBobberEntity bobber) {
             modifyBobber(world, bobber);
         }
 
-        return world.spawnEntity(entity);
+        return operation.call(world, entity);
     }
 
     @Unique

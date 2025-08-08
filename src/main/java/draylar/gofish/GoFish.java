@@ -29,6 +29,7 @@ public class GoFish implements ModInitializer {
         Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
                 .icon(() -> new ItemStack(GoFishItems.GOLDEN_FISH))
                 .displayName(Text.translatable("itemGroup.gofish.group"))
+                .entries((a, b) -> GoFishItems.ITEMS.forEach(b::add))
                 .build());
 
         GoFishBlocks.init();
@@ -36,14 +37,16 @@ public class GoFish implements ModInitializer {
         GoFishEnchantments.init();
         GoFishLoot.init();
         GoFishLootHandler.init();
-        GoFishParticles.init();
-        GoFishEntities.init();
+		GoFishParticles.init();
 
         FishCommand.register();
 
+//        FuelRegistryEvents.BUILD.register((builder, context) -> {
+//            builder.add(GoFishItems.OAKFISH, 3 * context.baseSmeltTime() / 2);
+//            builder.add(GoFishItems.CHARFISH, 8 * context.baseSmeltTime());
+//        });
         FuelRegistry.INSTANCE.add(GoFishItems.OAKFISH, 300); // same time as coal
         FuelRegistry.INSTANCE.add(GoFishItems.CHARFISH, 1600); // same time as coal
-
 
         FabricBrewingRecipeRegistryBuilder.BUILD.register(this::registerBrewingRecipes);
     }
@@ -58,4 +61,5 @@ public class GoFish implements ModInitializer {
         builder.registerPotionRecipe(Potions.AWKWARD, GoFishItems.RAINY_BASS, Potions.WATER_BREATHING);
         builder.registerPotionRecipe(Potions.AWKWARD, GoFishItems.MAGMA_COD, Potions.FIRE_RESISTANCE);
     }
+
 }

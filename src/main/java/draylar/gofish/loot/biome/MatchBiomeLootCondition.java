@@ -1,19 +1,15 @@
 package draylar.gofish.loot.biome;
 
-import com.google.common.collect.ImmutableSet;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import draylar.gofish.registry.GoFishLoot;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.biome.Biome;
@@ -33,11 +29,6 @@ public record MatchBiomeLootCondition(Optional<BiomeTagPredicate> category, Opti
     @Override
     public LootConditionType getType() {
         return GoFishLoot.MATCH_BIOME;
-    }
-
-    @Override
-    public Set<LootContextParameter<?>> getRequiredParameters() {
-        return ImmutableSet.of();
     }
 
     @Override

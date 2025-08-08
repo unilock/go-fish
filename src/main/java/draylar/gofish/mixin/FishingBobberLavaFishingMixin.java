@@ -27,15 +27,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(FishingBobberEntity.class)
 public abstract class FishingBobberLavaFishingMixin extends Entity {
 
     @Shadow public abstract PlayerEntity getPlayerOwner();
     @Shadow public abstract void remove(Entity.RemovalReason reason);
+
     private FishingBobberLavaFishingMixin(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    @Override
+    public boolean updateMovementInFluid(TagKey<Fluid> tag, double speed) {
+        if (tag == FluidTags.LAVA && !this.getWorld().isClient) {
+            return super.updateMovementInFluid(tag, 0.014 * 2);
+        }
+        return super.updateMovementInFluid(tag, speed);
     }
 
     // this mixin is used to determine whether a bobber is actually bobbing for fish
@@ -45,6 +56,10 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
             index = 2
     )
     private float bobberInLava(float value) {
+        if (this.getWorld().isClient) {
+            return value;
+        }
+
         BlockPos blockPos = this.getBlockPos();
         FluidState fluidState = this.getWorld().getFluidState(blockPos);
 
@@ -82,35 +97,48 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         getPlayerOwner().playSound(SoundEvents.ENTITY_GENERIC_BURN, .5f, 1f);
         remove(RemovalReason.KILLED);
 
-        return value;
+        return 0;
     }
 
-    // Original check is used to determine whether the bobber should free-fall.
-    // Bobbers shouldn't free-fall through liquid anyways, so we return true for all liquids.
-    // note that the original method call is inversed so we also inverse ours
     @WrapOperation(
             method = "tick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", ordinal = 1)
     )
     private boolean fallOutsideLiquid(FluidState instance, TagKey<Fluid> tag, Operation<Boolean> original) {
-        return !instance.isIn(FluidTags.LAVA) && original.call(instance, tag);
+        return original.call(instance, tag) || (!this.getWorld().isClient && instance.isIn(FluidTags.LAVA));
     }
 
     @WrapOperation(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
     private boolean replaceLava(BlockState instance, Block block, Operation<Boolean> original) {
-        return original.call(instance, block) || instance.isOf(Blocks.LAVA);
+        return original.call(instance, block) || (!this.getWorld().isClient && instance.isOf(Blocks.LAVA));
     }
 
     @ModifyArg(method = "tickFishingLogic", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"))
-    private ParticleEffect replaceLavaParticle(ParticleEffect particle, @Local BlockState state) {
+    private ParticleEffect replaceLavaParticle(ParticleEffect particle, @Local ServerWorld world, @Local(argsOnly = true) BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
         if (state.getFluidState().isIn(FluidTags.LAVA)) {
-            if (particle == ParticleTypes.FISHING) {
-                return GoFishParticles.LAVA_FISHING;
-            } else {
-                return ParticleTypes.LAVA;
-            }
+			if (particle == ParticleTypes.FISHING) {
+				return GoFishParticles.LAVA_FISHING;
+			} else {
+				return ParticleTypes.LAVA;
+			}
         }
         return particle;
+    }
+
+    @WrapOperation(
+        method = "tickFishingLogic",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;isSkyVisible(Lnet/minecraft/util/math/BlockPos;)Z"
+        )
+    )
+    public boolean isSkyVisible(World instance, BlockPos pos, Operation<Boolean> original) {
+        // The sky is never visible, don't punish players for not fishing in a sky visible spot
+        if (!instance.getDimension().hasSkyLight()) {
+            return true;
+        }
+        return original.call(instance, pos);
     }
 
     @WrapOperation(

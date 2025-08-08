@@ -11,7 +11,6 @@ import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -35,6 +34,7 @@ public record WeatherCondition(Optional<Boolean> raining, Optional<Boolean> thun
     public LootConditionType getType() {
         return GoFishLoot.WEATHER;
     }
+
 
     @Override
     public Set<LootContextParameter<?>> getRequiredParameters() {

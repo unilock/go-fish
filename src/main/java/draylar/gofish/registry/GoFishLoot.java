@@ -1,6 +1,5 @@
 package draylar.gofish.registry;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import draylar.gofish.GoFish;
 import draylar.gofish.loot.WeatherCondition;

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.6.+'
+    id 'fabric-loom' version '1.11.+'
     id 'maven-publish'
 }
 
@@ -11,11 +11,11 @@ base {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/gofish.accesswidener")
+    accessWidenerPath = file("src/main/resources/go-fish.accesswidener")
 
     mods {
-        "gofish" {
-            sourceSet("main")
+        "go-fish" {
+            sourceSet sourceSets.main
         }
     }
 }
@@ -65,7 +65,8 @@ jar {
 // Configure the maven publication
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
             from components.java
         }
     }
