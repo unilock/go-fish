@@ -29,7 +29,7 @@ public abstract class FishingBobberExperienceMixin implements ExperienceBobber {
 
     @ModifyArg(
             method = "use",
-            at = @At(value = "NEW", target = "net/minecraft/entity/ExperienceOrbEntity")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ExperienceOrbEntity;<init>(Lnet/minecraft/world/World;DDDI)V")
     )
     private int modifyExperience(int amount) {
         return amount - 1 + gf_baseExperience;
