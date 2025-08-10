@@ -10,21 +10,21 @@ import org.spongepowered.asm.mixin.injection.At;
 @SuppressWarnings("UnstableApiUsage")
 @Mixin(Entity.class)
 public abstract class EntityFireproofMixin implements FireproofEntity {
-	@ModifyReturnValue(
-			method = "isFireImmune",
-			at = @At("RETURN")
-	)
-	private boolean isFireImmune(boolean original) {
-		return original || gf_isFireproof();
-	}
+    @ModifyReturnValue(
+            method = "isFireImmune",
+            at = @At("RETURN")
+    )
+    private boolean isFireImmune(boolean original) {
+        return original || gf_isFireproof();
+    }
 
-	@Override
-	public boolean gf_isFireproof() {
-		return Boolean.TRUE.equals(((Entity) (Object) this).getAttached(GoFishAttachments.FIRE_IMMUNE));
-	}
+    @Override
+    public boolean gf_isFireproof() {
+        return Boolean.TRUE.equals(((Entity) (Object) this).getAttached(GoFishAttachments.FIRE_IMMUNE));
+    }
 
-	@Override
-	public void gf_setFireproof(boolean value) {
-		((Entity) (Object) this).setAttached(GoFishAttachments.FIRE_IMMUNE, value);
-	}
+    @Override
+    public void gf_setFireproof(boolean value) {
+        ((Entity) (Object) this).setAttached(GoFishAttachments.FIRE_IMMUNE, value);
+    }
 }

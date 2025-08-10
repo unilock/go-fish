@@ -28,7 +28,7 @@ public class GoFishClient implements ClientModInitializer {
         registerFishingRodPredicates(GoFishItems.SKELETAL_ROD);
         registerFishingRodPredicates(GoFishItems.EYE_OF_FISHING);
 
-		ParticleFactoryRegistry.getInstance().register(GoFishParticles.LAVA_FISHING, FishingParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(GoFishParticles.LAVA_FISHING, FishingParticle.Factory::new);
     }
 
     public void registerFishingRodPredicates(Item item) {

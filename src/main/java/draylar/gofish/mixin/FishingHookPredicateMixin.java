@@ -25,7 +25,7 @@ public class FishingHookPredicateMixin {
             cancellable = true)
     private void overrideCreativePredicate(Entity entity, ServerWorld world, Vec3d pos, CallbackInfoReturnable<Boolean> cir) {
         if (entity instanceof ServerPlayerEntity player) {
-			if (player.isCreative() && player.hasPermissionLevel(2)) {
+            if (player.isCreative() && player.hasPermissionLevel(2)) {
                 cir.setReturnValue(true);
             }
         }

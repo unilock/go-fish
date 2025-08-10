@@ -30,7 +30,7 @@ public abstract class FishingBobberValidityMixin extends Entity {
                     value = "INVOKE",
                     target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z"
             ),
-			require = 0 // NeoForge renders this mixin unnecessary
+            require = 0 // NeoForge renders this mixin unnecessary
     )
     private boolean removeIfInvalid(ItemStack stack, Item item, Operation<Boolean> original) {
         return original.call(stack, item) || stack.getItem() instanceof ExtendedFishingRodItem;

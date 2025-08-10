@@ -32,13 +32,13 @@ public class GoFish implements ModInitializer {
                 .entries((a, b) -> GoFishItems.ITEMS.forEach(b::add))
                 .build());
 
-		GoFishAttachments.init();
-		GoFishBlocks.init();
+        GoFishAttachments.init();
+        GoFishBlocks.init();
         GoFishItems.init();
         GoFishEnchantments.init();
         GoFishLoot.init();
         GoFishLootHandler.init();
-		GoFishParticles.init();
+        GoFishParticles.init();
 
         FishCommand.register();
 

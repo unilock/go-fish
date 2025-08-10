@@ -56,8 +56,7 @@ public abstract class FishingBobberAutosmeltMixin extends Entity implements Smel
                         getWorld()
                 );
 
-                cooked.ifPresent(smeltingRecipe -> itemEntity.setStack(smeltingRecipe.value().craft(
-                        new SingleStackRecipeInput(itemEntity.getStack()), getWorld().getRegistryManager())));
+                cooked.ifPresent(smeltingRecipe -> itemEntity.setStack(smeltingRecipe.value().craft(new SingleStackRecipeInput(itemEntity.getStack()), getWorld().getRegistryManager())));
             }
         }
 

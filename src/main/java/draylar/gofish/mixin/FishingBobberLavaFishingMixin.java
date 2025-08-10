@@ -69,11 +69,11 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
         // Player is holding extended fishing rod, check if it can be in lava.
         // Otherwise, fallback to default behavior.
         if (mainHandItem instanceof ExtendedFishingRodItem usedRod) {
-			if (usedRod.canFishInLava()) {
+            if (usedRod.canFishInLava()) {
                 return fluidState.getHeight(this.getWorld(), blockPos);
             }
         } else if (offHandItem instanceof ExtendedFishingRodItem usedRod) {
-			if (usedRod.canFishInLava()) {
+            if (usedRod.canFishInLava()) {
                 return fluidState.getHeight(this.getWorld(), blockPos);
             }
         }
@@ -109,11 +109,11 @@ public abstract class FishingBobberLavaFishingMixin extends Entity {
     private ParticleEffect replaceLavaParticle(ParticleEffect particle, @Local ServerWorld world, @Local(argsOnly = true) BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         if (state.getFluidState().isIn(FluidTags.LAVA)) {
-			if (particle == ParticleTypes.FISHING) {
-				return GoFishParticles.LAVA_FISHING;
-			} else {
-				return ParticleTypes.LAVA;
-			}
+            if (particle == ParticleTypes.FISHING) {
+                return GoFishParticles.LAVA_FISHING;
+            } else {
+                return ParticleTypes.LAVA;
+            }
         }
         return particle;
     }

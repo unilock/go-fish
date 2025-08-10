@@ -15,10 +15,10 @@ public class GoFishParticles {
     }
 
     public static void init() {
-		// NO-OP
+        // NO-OP
     }
 
     private GoFishParticles() {
-		// NO-OP
+        // NO-OP
     }
 }

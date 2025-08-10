@@ -24,7 +24,7 @@ public class GoFishLootHandler {
     }
 
     private static void registerFishHandler() {
-		LootTableEvents.MODIFY.register((registryKey, builder, lootTableSource, wrapperLookup) -> {
+        LootTableEvents.MODIFY.register((registryKey, builder, lootTableSource, wrapperLookup) -> {
             if(LootTables.FISHING_GAMEPLAY.equals(registryKey) && lootTableSource.isBuiltin()) {
                 var canModify = new MutableBoolean(true);
                 builder.modifyPools(lpb -> {
