@@ -3,7 +3,7 @@ package draylar.gofish.item;
 import draylar.gofish.api.*;
 import draylar.gofish.registry.GoFishEnchantments;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.FishingRodItem;
@@ -21,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,11 @@ public class ExtendedFishingRodItem extends FishingRodItem {
             // Retrieve fishing bobber and damage Fishing Rod
             if(!world.isClient) {
                 int damage = user.fishHook.use(heldStack);
-                heldStack.damage(damage, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+                heldStack.damage(damage, user, LivingEntity.getSlotForHand(hand));
             }
 
             world.playSound(null, user.getX(), user.getY(), user.getZ(), retrieve.getSound(), SoundCategory.NEUTRAL, retrieve.getVolume(random), retrieve.getPitch(random));
+            user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
         } else {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), cast.getSound(), SoundCategory.NEUTRAL, cast.getVolume(random), cast.getPitch(random));
 
@@ -85,9 +87,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
                 for (ItemStack stack : user.getInventory().main) {
                     Item item = stack.getItem();
 
-                    if(item instanceof FishingBonus) {
-                        FishingBonus bonus = (FishingBonus) item;
-
+                    if(item instanceof FishingBonus bonus) {
                         if(!found.contains(bonus)) {
                             if(bonus.shouldApply(world, user)) {
                                 found.add(bonus);
@@ -106,7 +106,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
                 boolean smelts = hasDeepfryEnchantment || rodAutosmelts || smeltBuff;
 
                 // Calculate lure and luck
-                int lure = Math.min((int) (EnchantmentHelper.getFishingTimeReduction((ServerWorld) world, heldStack, user) + baseLure + bonusLure), 5);
+                int lure = (int) ((EnchantmentHelper.getFishingTimeReduction((ServerWorld) world, heldStack, user) + baseLure + bonusLure) * 20.0F);
                 int lots = EnchantmentHelper.getFishingLuckBonus((ServerWorld) world, heldStack, user) + baseLOTS + bonusLuck;
 
                 // Summon bobber with stats
@@ -118,6 +118,7 @@ public class ExtendedFishingRodItem extends FishingRodItem {
             }
 
             user.incrementStat(Stats.USED.getOrCreateStat(this));
+            user.emitGameEvent(GameEvent.ITEM_INTERACT_START);
         }
 
         return TypedActionResult.success(heldStack, world.isClient());
