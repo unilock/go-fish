@@ -1,5 +1,6 @@
 package draylar.gofish.item;
 
+import draylar.gofish.registry.GoFishBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -26,15 +27,18 @@ import java.util.Objects;
 public class CrateItem extends BlockItem {
 
     private final RegistryKey<LootTable> loot;
+    private final Block decorative;
 
     public CrateItem(Block block, Settings settings) {
         super(block, settings);
-        loot = LootTables.PILLAGER_OUTPOST_CHEST;
+        loot = LootTables.SIMPLE_DUNGEON_CHEST;
+        decorative = GoFishBlocks.DECORATIVE_WOODEN_CRATE;
     }
 
-    public CrateItem(Block block, Settings settings, Identifier loot) {
+    public CrateItem(Block block, Settings settings, Identifier loot, Block decorative) {
         super(block, settings);
         this.loot = RegistryKey.of(RegistryKeys.LOOT_TABLE, loot);
+        this.decorative = decorative;
     }
 
     @Override
@@ -62,6 +66,7 @@ public class CrateItem extends BlockItem {
             // remove 1x from inventory for non-creative players
             if(!user.isCreative()) {
                 user.getStackInHand(hand).decrement(1);
+                user.giveItemStack(new ItemStack(this.decorative));
             }
 
             return TypedActionResult.success(user.getStackInHand(hand));

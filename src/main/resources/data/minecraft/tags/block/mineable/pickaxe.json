@@ -9,6 +9,16 @@
     "gofish:soul_crate",
     "gofish:gilded_blackstone_crate",
     "gofish:astral_crate",
-    "gofish:end_crate"
+    "gofish:end_crate",
+
+    "gofish:decorative_iron_crate",
+    "gofish:decorative_golden_crate",
+    "gofish:decorative_diamond_crate",
+    "gofish:decorative_frosted_crate",
+    "gofish:decorative_fiery_crate",
+    "gofish:decorative_soul_crate",
+    "gofish:decorative_gilded_blackstone_crate",
+    "gofish:decorative_astral_crate",
+    "gofish:decorative_end_crate"
   ]
 }

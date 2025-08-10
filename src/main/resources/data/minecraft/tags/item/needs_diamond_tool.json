@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "gofish:end_crate"
+    "gofish:end_crate",
+
+    "gofish:decorative_end_crate"
   ]
 }

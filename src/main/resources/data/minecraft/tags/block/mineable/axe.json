@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "gofish:supply_crate",
-    "gofish:wooden_crate"
+    "gofish:wooden_crate",
+
+    "gofish:decorative_supply_crate",
+    "gofish:decorative_wooden_crate"
   ]
 }
